@@ -18,6 +18,8 @@ records = db.register
 def index():
     message = ''
     #if method post in index
+    if "email" in session:
+        return redirect(url_for("logged_in"))
     if request.method == "POST":
         user = request.form.get("fullname")
         email = request.form.get("email")
