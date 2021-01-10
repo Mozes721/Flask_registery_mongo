@@ -6,7 +6,7 @@ app = Flask(__name__)
 #encryption relies on secret keys so they could be run
 app.secret_key = "testing"
 #connoct to your Mongo DB database
-client = pymongo.MongoClient("mongodb+srv://Richard:Asebomu12@cluster0-xth9g.mongodb.net/Richard?retryWrites=true&w=majority")
+client = pymongo.MongoClient("mongodb+srv://Richard:Password@cluster0-xth9g.mongodb.net/Richard?retryWrites=true&w=majority")
 
 #get the database name
 db = client.get_database('total_records')
@@ -34,6 +34,7 @@ def index():
             return render_template('index.html', message=message)
         if password1 != password2:
             message = 'Passwords should match!'
+            return render_template('index.html', message=message)
         else:
             #hash the password and encode it
             hashed = bcrypt.hashpw(password2.encode('utf-8'), bcrypt.gensalt())
