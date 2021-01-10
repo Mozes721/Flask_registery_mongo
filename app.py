@@ -93,8 +93,11 @@ def logged_in():
 
 @app.route("/logout", methods=["POST", "GET"])
 def logout():
-    session.pop("email", None)
-    return render_template("signout.html")
+    if "email" in session:
+        session.pop("email", None)
+        return render_template("signout.html")
+    else:
+        return render_template('index.html')
 
 
 
