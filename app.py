@@ -1,15 +1,16 @@
+import os
 from flask import Flask, render_template, request, url_for, redirect, session
-import pymongo
+from pymongo import MongoClient
 import bcrypt
 #set app as a Flask instance 
 app = Flask(__name__)
 #encryption relies on secret keys so they could be run
 app.secret_key = "testing"
 #connoct to your Mongo DB database
-client = pymongo.MongoClient("mongodb+srv://Richard:Password@cluster0-xth9g.mongodb.net/Richard?retryWrites=true&w=majority")
+client = MongoClient()
 
 #get the database name
-db = client.get_database('total_records')
+db = client.users
 #get the particular collection that contains the data
 records = db.register
 
@@ -102,8 +103,5 @@ def logout():
 
 
 
-
-
-
 if __name__ == "__main__":
-  app.run(debug=True)
+  app.run(debug=True, host='0.0.0.0', port=5000)
