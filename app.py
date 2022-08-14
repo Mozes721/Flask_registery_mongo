@@ -6,13 +6,21 @@ import bcrypt
 app = Flask(__name__)
 #encryption relies on secret keys so they could be run
 app.secret_key = "testing"
+
 #connoct to your Mongo DB database
-client = MongoClient()
+client = pymongo.MongoClient("mongodb+srv://Richard:Password@cluster0-xth9g.mongodb.net/Richard?retryWrites=true&w=majority")
 
 #get the database name
-db = client.users
+db = client.get_database('total_records')
 #get the particular collection that contains the data
 records = db.register
+
+
+###Connect with Docker Image###
+#client = MongoClient()
+#db = client.users
+#records = db.register
+###END###
 
 #assign URLs to have a particular route 
 @app.route("/", methods=['post', 'get'])
