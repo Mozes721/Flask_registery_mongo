@@ -7,20 +7,35 @@ app = Flask(__name__)
 #encryption relies on secret keys so they could be run
 app.secret_key = "testing"
 
-#connoct to your Mongo DB database
-client = MongoClient("mongodb+srv://Richard:Password@cluster0-xth9g.mongodb.net/Richard?retryWrites=true&w=majority")
+# #connoct to your Mongo DB database
+def MongoDB():
+    client = MongoClient("mongodb+srv://Richard:Password@cluster0-xth9g.mongodb.net/Richard?retryWrites=true&w=majority")
+    db = client.get_database('total_records')
+    records = db.register
+    return records
+# records = clientMongo()
 
-#get the database name
-db = client.get_database('total_records')
-#get the particular collection that contains the data
-records = db.register
 
+##Connect with Docker Image###
+def dockerMongoDB():
+    client = MongoClient(host='test_mongodb',
+                            port=27017, 
+                            username='root', 
+                            password='pass',
+                            authSource="admin")
+    db = client.users
+    pw = "test123"
+    hashed = bcrypt.hashpw(pw.encode('utf-8'), bcrypt.gensalt())
+    records = db.register
+    records.insert_one({
+        "name": "Test Test",
+        "email": "test@yahoo.com",
+        "password": hashed
+    })
+    return records
 
-###Connect with Docker Image###
-#client = MongoClient()
-#db = client.users
-#records = db.register
-###END###
+records = dockerMongoDB()
+
 
 #assign URLs to have a particular route 
 @app.route("/", methods=['post', 'get'])
@@ -60,8 +75,6 @@ def index():
             #if registered redirect to logged in as the registered user
             return render_template('logged_in.html', email=new_email)
     return render_template('index.html')
-
-
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
