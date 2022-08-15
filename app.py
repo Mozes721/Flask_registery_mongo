@@ -1,4 +1,3 @@
-import os
 from flask import Flask, render_template, request, url_for, redirect, session
 from pymongo import MongoClient
 import bcrypt
@@ -9,7 +8,7 @@ app.secret_key = "testing"
 
 # #connoct to your Mongo DB database
 def MongoDB():
-    client = MongoClient("mongodb+srv://Richard:Password@cluster0-xth9g.mongodb.net/Richard?retryWrites=true&w=majority")
+    client = MongoClient("mongodb+srv://db:pw@cluster0-xth9g.mongodb.net/Richard?retryWrites=true&w=majority")
     db = client.get_database('total_records')
     records = db.register
     return records
