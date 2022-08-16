@@ -12,7 +12,7 @@ def MongoDB():
     db = client.get_database('total_records')
     records = db.register
     return records
-# records = clientMongo()
+# records = MongoDB()
 
 
 ##Connect with Docker Image###
